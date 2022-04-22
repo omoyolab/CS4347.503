@@ -1,0 +1,4 @@
+git add -A
+git commit -m "quick_save"
+git push
+
