@@ -1,3 +1,5 @@
+import com.mysql.cj.protocol.x.ReusableOutputStream;
+
 import java.sql.*;
 import java.util.*;
 
@@ -42,7 +44,10 @@ public class Console {
 			
 			case 3:
 				//code here
-			break;
+				System.out.println("Please enter a Zodiac Sign from the following:\n" +
+						"");
+				ResultSet zodreq= myStatement.executeQuery("SELECT *");
+				break;
 			
 			case 4:
 				//code here
