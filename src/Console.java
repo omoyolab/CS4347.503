@@ -45,6 +45,9 @@ public class Console {
 			case 3:
 				//code here
 				System.out.println("Please enter a Zodiac Sign from the following:\n" +
+						"1 | Taurus" +
+						" 2 | leo " +
+						" 3 | Cancer " +
 						"");
 				ResultSet zodreq= myStatement.executeQuery("SELECT *");
 				break;

@@ -47,3 +47,13 @@ INSERT INTO `match`VALUES ('17','Gemini','Camping','Cooking','Swimming');
 INSERT INTO `match`VALUES ('18','Cancer','TV','Dancing','Reading');
 INSERT INTO `match`VALUES ('19','Taurus','Gaming','Cooking','Swimming');
 INSERT INTO `match`VALUES ('20','leo','Party','Reading','TV');
+
+#zodiac sign inserts
+
+CREATE TABLE `matchingapp`.`zsigns` (
+    name VARCHAR(255) PRIMARY KEY,  
+     number INT(11) NOT NULL AUTO_INCREMENT
+     start DATETIME NOT NULL,
+     end DATETIME NOT NULL,
+    name VARCHAR(255) NOT NULL,
+     abrev VARCHAR(255) NOT NULL);
