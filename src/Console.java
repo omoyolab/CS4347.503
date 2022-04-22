@@ -18,7 +18,7 @@ public class Console {
 		
 		do {
 			System.out.println(
-                    " MENU – FRIENDS APPLICATION– DATABASE SYSTEMS\n"+
+                    " MENU â€“ FRIENDS APPLICATIONâ€“ DATABASE SYSTEMS\n"+
                     " 1. Register Account \n" +
                     " 2. Search All Users\n"+
                     " 3. Find Users by Zodiac \n" +
@@ -49,7 +49,36 @@ public class Console {
 			break;
 			
 			case 5:
-				//code here
+				String zodiac = null, interest = null;
+				char gender = 0 ;
+
+				System.out.println("What zodiac sign are you interested in?");
+				zodiac = keyboard.nextLine();
+				System.out.println("Name of activity you are interested in");
+				interest = keyboard.nextLine();
+				System.out.println("What gender are you interested in?");
+				gender = keyboard.nextLine().charAt(0);
+				
+				String query = " Select user.name, user.college, user.major, match.interest_1, match.interest_2,  match.interest_3, match.zodiac\r\n"
+						+ " From user,`match`\r\n"
+						+ " where match.match_id = user.user_id AND\r\n"
+						+ " match.zodiac = \""+zodiac+"\" AND \r\n"
+						+ " \""+interest+"\" in (match.interest_1, match.interest_2, match.interest_3)AND\r\n"
+						+ " user.sex = \""+gender+"\" \r\n"
+						+ " order by user.name;";
+				
+				ResultSet myMatches =  myStatement.executeQuery(query);
+				
+				while(myMatches.next()) {
+					System.out.println("----------------Your Matches---------------------");
+					System.out.println(myMatches.getString("name")+ " - " + myMatches.getString("college")
+					+ " - " + myMatches.getString("interest_1")+ " - " + myMatches.getString("interest_2")
+					+ " - " + myMatches.getString("interest_3")+ " - " + myMatches.getString("major"));
+					
+				}
+				System.out.println();
+				System.out.println();
+				System.out.println();
 			break;
 			}
 			
