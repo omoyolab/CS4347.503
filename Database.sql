@@ -16,6 +16,7 @@ CREATE TABLE `matchingapp`.`user` (
 PRIMARY KEY (`user_id`),
 UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC) VISIBLE);
 
+
 CREATE TABLE `matchingapp`.`match` (
 `match_id` INT(11) NOT NULL AUTO_INCREMENT,
 `zodiac` VARCHAR(255) NOT NULL,
@@ -26,8 +27,7 @@ PRIMARY KEY (`match_id`),
 UNIQUE INDEX `match_id_UNIQUE` (`match_id` ASC) VISIBLE);
 
 ALTER TABLE `matchingapp`.`user`
-ADD INDEX `match_fk_idx` (`match_id` ASC) VISIBLE;
-;
+ADD INDEX `match_fk_idx` (`match_id` ASC) VISIBLE
 ALTER TABLE `matchingapp`.`user`
 ADD CONSTRAINT `match_fk`
 FOREIGN KEY (`match_id`)

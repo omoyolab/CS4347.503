@@ -6,7 +6,7 @@ public class Console {
 	public static void main(String[] args) throws SQLException {
 		String db = "jdbc:mysql://localhost:3306/matchingapp";
 		String username = "root";
-		String password = "axoxweb";
+		String password = "Mreman769";
 		
 		Connection myConnection = DriverManager.getConnection(db, username, password);
 		Statement myStatement = myConnection.createStatement();
