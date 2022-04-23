@@ -56,7 +56,14 @@ public class Console {
 					System.out.println("  "+pos+" | "+ sign);
 				}
 				userInput= keyboard.nextInt();
-				String query= getZodiac(userInput,keyboard);
+				String zquery= getZodiac(userInput,keyboard);
+				// Unlock comment to print query before querying System.out.println(zquery);
+
+				ResultSet zodiacList= myStatement.executeQuery(zquery);
+				while(zodiacList.next()){
+					System.out.println(zodiacList.getString("name")+ " - " + zodiacList.getString("zodiac")+" - "+ zodiacList.getString("sex"));
+				}
+				System.out.println("\n\n\n\n"); // adds space for asthetics
 
 
 				break;
@@ -79,38 +86,40 @@ public class Console {
 
 
 
-	private static String getZodiac(int ui, Scanner k) {
+	public static String getZodiac(int ui, Scanner k) {
 		int c= ui-1;// since index starts at 0 and not 1 but options are 1 through 12
+		String queryout = null;
 		if (!(ui < 1 || ui > 12)) {
-			System.out.println("Did you want to specify gender?  Y/N ");
-			String response = k.next();
+			System.out.println("Did you want to specify sex?  Y/N ");
+			String response = k.next().toLowerCase();
 			//int respint = response - 0;
-			System.out.println("response " + response);
-			char rchar=response.toLowerCase(Locale.ROOT).charAt(0);
-			int r = rchar-0;
-			System.out.println("response char" + r);
+			char rchar=response.charAt(0);
+			int r = rchar-0; //turn response into numerical value with simple char to in conversion.
 			if (r==110){
 				//This means not gender specific query all for this sign
-				String q= "SELECT user.name,match.zodiac\n"
-						+"FROM user, 'match' \n"
-						+ "WHERE match.match_id = user.user_id AND \n"
-						+ "match.zodiac = \""+ zsigns[c] +"\"";
-				System.out.println(q);
-			}else{
+				queryout = "SELECT user.name,matchingapp.match.zodiac, user.sex "
+						+"FROM user,matchingapp.match "
+						+ "WHERE matchingapp.match.match_id = user.user_id AND "
+						+ "matchingapp.match.zodiac = \""+ zsigns[c] +"\" ;";
+				return queryout;
+			}else if (r==121){
 				// This is means it is gender specific ask for male or female?
 				System.out.println("Male or Female?");//male 77, female 70
-				String gen = k.next();
-				//int respint = response - 0;
-				System.out.println("response: " + gen);
-				char gChar=gen.toUpperCase(Locale.ROOT).charAt(0);
-				int g = gChar-0;
-				System.out.println(g);
+				String gen = k.next().toUpperCase();
+				char gChar=gen.charAt(0);
+				if (!(gChar==77||gChar==70)) {
+					System.out.println("Please choose Male or Female");
+					//getZodiac(ui, k);
+				}else{
 
-				String q1= "SELECT user.name,match.zodiac \n"
-						+"FROM user, 'match' \n"
-						+ "WHERE match.match_id = user.user_id AND \n"
-						+ "match.zodiac = \""+ zsigns[c] +"\" and user.sex= \""+gChar+"\"";
-				System.out.println(q1);
+				queryout = "SELECT user.name,matchingapp.match.zodiac, user.sex "
+						+"FROM user,matchingapp.match "
+						+ "WHERE matchingapp.match.match_id = user.user_id AND "
+						+ "matchingapp.match.zodiac = \""+ zsigns[c] +"\" and user.sex= \""+gChar+"\";";
+				return queryout;}
+			}else{
+				System.out.println("You did not specify a sex please try again");
+				//getZodiac(ui,k);
 			}
 
 		} else {
@@ -119,7 +128,7 @@ public class Console {
 			getZodiac(nui, k);
 
 		}
-		return "hey";
+		return queryout;
 	}
 
 }
