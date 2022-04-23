@@ -8,7 +8,7 @@ public class Console {
 	static String[] zsigns = {"Capricorn","Aquarius","Pisces",
 			"Aries","Taurus", "Gemini",
 			"Cancer","leo","Virgo",
-			"Libra","Scorpio","Sagittarius"};
+			"Libra","Scorpio","Sagitarius"};
 
 	public static void main(String[] args) throws SQLException {
 		String db = "jdbc:mysql://localhost:3306/matchingapp";
@@ -80,6 +80,7 @@ public class Console {
 
 
 	private static String getZodiac(int ui, Scanner k) {
+		int c= ui-1;// since index starts at 0 and not 1 but options are 1 through 12
 		if (!(ui < 1 || ui > 12)) {
 			System.out.println("Did you want to specify gender?  Y/N ");
 			String response = k.next();
@@ -90,10 +91,10 @@ public class Console {
 			System.out.println("response char" + r);
 			if (r==110){
 				//This means not gender specific query all for this sign
-				String q= "SELECT user.name,match.zodiac"
-						+"FROM user, 'match "
-						+ "WHERE match.match_id = user.user_id AND "
-						+ "match.zodiac = \""+ zsigns[ui] +"\"";
+				String q= "SELECT user.name,match.zodiac\n"
+						+"FROM user, 'match' \n"
+						+ "WHERE match.match_id = user.user_id AND \n"
+						+ "match.zodiac = \""+ zsigns[c] +"\"";
 				System.out.println(q);
 			}else{
 				// This is means it is gender specific ask for male or female?
@@ -104,6 +105,12 @@ public class Console {
 				char gChar=gen.toUpperCase(Locale.ROOT).charAt(0);
 				int g = gChar-0;
 				System.out.println(g);
+
+				String q1= "SELECT user.name,match.zodiac \n"
+						+"FROM user, 'match' \n"
+						+ "WHERE match.match_id = user.user_id AND \n"
+						+ "match.zodiac = \""+ zsigns[c] +"\" and user.sex= \""+gChar+"\"";
+				System.out.println(q1);
 			}
 
 		} else {
