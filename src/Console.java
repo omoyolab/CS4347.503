@@ -1,9 +1,14 @@
 import com.mysql.cj.protocol.x.ReusableOutputStream;
 
+import java.awt.desktop.SystemEventListener;
 import java.sql.*;
 import java.util.*;
 
 public class Console {
+	static String[] zsigns = {"Capricorn","Aquarius","Pisces",
+			"Aries","Taurus", "Gemini",
+			"Cancer","leo","Virgo",
+			"Libra","Scorpio","Sagittarius"};
 
 	public static void main(String[] args) throws SQLException {
 		String db = "jdbc:mysql://localhost:3306/matchingapp";
@@ -44,12 +49,16 @@ public class Console {
 			
 			case 3:
 				//code here
-				System.out.println("Please enter a Zodiac Sign from the following:\n" +
-						"1 | Taurus" +
-						" 2 | leo " +
-						" 3 | Cancer " +
-						"");
-				ResultSet zodreq= myStatement.executeQuery("SELECT *");
+				System.out.println("Please enter a Zodiac Sign from the following:\n");
+				for(int i =0; i< zsigns.length;i++){
+					int pos= i +1;
+					String sign = zsigns[i];
+					System.out.println("  "+pos+" | "+ sign);
+				}
+				userInput= keyboard.nextInt();
+				String query= getZodiac(userInput,keyboard);
+
+
 				break;
 			
 			case 4:
@@ -66,6 +75,44 @@ public class Console {
 
 	
 
+	}
+
+
+
+	private static String getZodiac(int ui, Scanner k) {
+		if (!(ui < 1 || ui > 12)) {
+			System.out.println("Did you want to specify gender?  Y/N ");
+			String response = k.next();
+			//int respint = response - 0;
+			System.out.println("response " + response);
+			char rchar=response.toLowerCase(Locale.ROOT).charAt(0);
+			int r = rchar-0;
+			System.out.println("response char" + r);
+			if (r==110){
+				//This means not gender specific query all for this sign
+				String q= "SELECT user.name,match.zodiac"
+						+"FROM user, 'match "
+						+ "WHERE match.match_id = user.user_id AND "
+						+ "match.zodiac = \""+ zsigns[ui] +"\"";
+				System.out.println(q);
+			}else{
+				// This is means it is gender specific ask for male or female?
+				System.out.println("Male or Female?");//male 77, female 70
+				String gen = k.next();
+				//int respint = response - 0;
+				System.out.println("response: " + gen);
+				char gChar=gen.toUpperCase(Locale.ROOT).charAt(0);
+				int g = gChar-0;
+				System.out.println(g);
+			}
+
+		} else {
+			System.out.println("Please enter valid input\n");
+			int nui = k.nextInt();
+			getZodiac(nui, k);
+
+		}
+		return "hey";
 	}
 
 }
